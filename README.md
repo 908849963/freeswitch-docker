@@ -21,3 +21,31 @@
 ## 运行示例
 
 > docker run --name freeswitch -p 5060:5060/udp -v ./fsw-conf:/usr/local/etc/freeswitch freeswitch:1.10.11
+
+## 运行示例 docker-compose.yml
+```
+version: '3.8'
+
+services:
+  freeswitch:
+    image: freeswitch:1.10.11
+    container_name: freeswitch
+    restart: always
+    network_mode: "host"  # 使用主机网络模式，确保SIP端口正常工作
+    volumes:
+      # 持久化配置文件
+      - ./freeswitch/conf:/etc/freeswitch
+      # 持久化录音文件
+      - ./freeswitch/recordings:/var/lib/freeswitch/recordings
+      # 持久化日志
+      - ./freeswitch/log:/var/log/freeswitch
+      # 持久化声音文件
+      - ./freeswitch/sounds:/usr/share/freeswitch/sounds
+    environment:
+      - TZ=Asia/Shanghai  # 设置时区
+    cap_add:
+      - NET_ADMIN  # 授予网络管理权限，用于某些SIP功能
+    command: freeswitch -c
+
+
+``` 
