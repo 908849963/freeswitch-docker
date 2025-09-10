@@ -31,16 +31,16 @@ services:
     image: freeswitch:1.10.11
     container_name: freeswitch
     restart: always
-    network_mode: "host"  # 使用主机网络模式，确保SIP端口正常工作
+    network_mode: host  # 使用主机网络模式，确保SIP端口正常工作
     volumes:
       # 持久化配置文件
-      - ./freeswitch/conf:/etc/freeswitch
+      - ./freeswitch/conf:/usr/local/etc/freeswitch  
       # 持久化录音文件
-      - ./freeswitch/recordings:/var/lib/freeswitch/recordings
+      - ./freeswitch/recordings:/usr/local/var/lib/freeswitch/recordings  
       # 持久化日志
-      - ./freeswitch/log:/var/log/freeswitch
+      - ./freeswitch/log:/usr/local/var/log/freeswitch 
       # 持久化声音文件
-      - ./freeswitch/sounds:/usr/share/freeswitch/sounds
+      - ./freeswitch/sounds:/usr/local/share/freeswitch/sounds
     environment:
       - TZ=Asia/Shanghai  # 设置时区
     cap_add:
